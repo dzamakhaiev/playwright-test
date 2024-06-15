@@ -10,3 +10,7 @@ class MainPageLocators(BasePage):
     CARD_ITEM = '.top-card'
     CARD_BODY = '.card-body'
     LINK = 'a'
+
+
+class ElementsPage(BasePage):
+    ELEMENTS_LIST = '.element-group'

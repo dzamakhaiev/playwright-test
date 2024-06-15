@@ -13,24 +13,22 @@ class BasePage:
         else:
             return self.page.locator(locator)
 
-    def get_title(self):
+    def get_page_title(self):
         return self.page.title()
 
     def get_current_url(self):
         return self.page.url
+
+    def get_page_footer(self, locator=locators.MainPageLocators.FOOTER):
+        return self.find_element(locator)
 
 
 class MainPage(BasePage):
 
     url = 'https://demoqa.com/'
 
-
-
     def go_to_main_page(self):
         self.page.goto(self.url)
-
-    def get_footer(self, locator=locators.MainPageLocators.FOOTER):
-        return self.find_element(locator)
 
     def get_banner(self):
         return self.find_element(locator=locators.MainPageLocators.BANNER)
@@ -41,3 +39,16 @@ class MainPage(BasePage):
     def get_list_of_cards(self):
         return self.page.locator(locators.MainPageLocators.CARD_ITEM).element_handles()
 
+
+class ElementsPage(BasePage):
+
+    url = 'https://demoqa.com/elements'
+
+    def go_to_elements_page(self):
+        self.page.goto(self.url)
+
+    def get_elements_list(self):
+        element = self.find_element(locator=locators.ElementsPage.ELEMENTS_LIST).first
+        element = self.find_element(element=element, locator=locators.ElementsPage.SUB_ELEMENTS_LIST)
+        elements = self.find_element(element=element, locator=locators.ElementsPage.SUB_ELEMENTS_ITEM).element_handles()
+        return elements
