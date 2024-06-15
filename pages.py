@@ -52,3 +52,32 @@ class ElementsPage(BasePage):
         element = self.find_element(element=element, locator=locators.ElementsPage.SUB_ELEMENTS_LIST)
         elements = self.find_element(element=element, locator=locators.ElementsPage.SUB_ELEMENTS_ITEM).element_handles()
         return elements
+
+
+class TextBoxPage(BasePage):
+
+    url = 'https://demoqa.com/text-box'
+
+    def go_to_text_box_page(self):
+        self.page.goto(self.url)
+
+    def fill_text_fields(self, field_dict: dict):
+        name_field = self.find_element(locator=locators.TextBoxPage.FULL_NAME)
+        email_field = self.find_element(locator=locators.TextBoxPage.EMAIL)
+        current_field = self.find_element(locator=locators.TextBoxPage.CURRENT_ADDRESS)
+        permanent_field = self.find_element(locator=locators.TextBoxPage.PERMANENT_ADDRESS)
+
+        name_field.type(field_dict.get('full_name', ''))
+        email_field.type(field_dict.get('email', ''))
+        current_field.type(field_dict.get('current_address', ''))
+        permanent_field.type(field_dict.get('permanent_address', ''))
+
+        self.find_element(locator=locators.TextBoxPage.SUBMIT).click()
+
+    def read_output(self):
+        output = self.find_element(locator=locators.TextBoxPage.OUTPUT)
+        text_items = self.find_element(element=output, locator=locators.TextBoxPage.TEXT_ITEM).element_handles()
+        return text_items
+
+    def find_field_error(self, locator=locators.TextBoxPage.FILED_ERROR):
+        return self.find_element(locator=locator).count()
